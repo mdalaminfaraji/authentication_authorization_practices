@@ -43,21 +43,21 @@ def user_logout(request):
 
 
 
-def pass_change(request):
+def change_password(request):
         if request.user.is_authenticated:
                 if request.method == 'POST':
                         form = PasswordChangeForm(user=request.user, data=request.POST)
                         if form.is_valid():
                                 form.save()
                                 update_session_auth_hash(request, form.user)  # Use form.user directly
-                                return redirect('profile')
+                                return redirect('change_password')
                 else:
                         form = PasswordChangeForm(user=request.user)
-                return render(request, 'pass_change.html', {'form': form})
+                return render(request, 'change_password.html', {'form': form})
         else:
               return redirect('login')   
       
-def pass_change2(request):
+def pass_changeWithoutOldPass(request):
         if request.user.is_authenticated:
                 if request.method == 'POST':
                         form = SetPasswordForm(user=request.user, data=request.POST)
@@ -67,8 +67,11 @@ def pass_change2(request):
                                 return redirect('profile')
                 else:
                         form = SetPasswordForm(user=request.user)
-                return render(request, 'pass_change.html', {'form': form})
+                return render(request, 'change_password.html', {'form': form})
         else:
               return redirect('login')   
+      
+def user_profile(request):
+        return render(request, 'profile.html')
       
    
